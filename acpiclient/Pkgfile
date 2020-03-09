@@ -1,0 +1,15 @@
+# Description: displays information about acpi devices
+# URL: http://sourceforge.net/projects/acpiclient/
+# Maintainer: #teatime (irc.kyber.io), teatime at kyber dot io
+
+name=acpiclient
+version=1.7
+release=1
+ source=(http://downloads.sourceforge.net/project/$name/$name/$version/acpi-$version.tar.gz)
+
+build(){
+  cd acpi-$version
+  ./configure --prefix=/usr --mandir=/usr/share/man
+  make
+  make DESTDIR=$PKG install
+}

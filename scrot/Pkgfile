@@ -1,0 +1,23 @@
+# Description: Commandline screen capture.
+# URL: 
+# Maintainer: 
+# Depends on: giblib
+
+name=scrot
+version=0.8
+release=1
+source=(https://github.com/dreamer/$name/archive/$name-$version.tar.gz)
+
+build() {
+
+	cd $name-$name-$version
+
+	./configure \
+		--prefix=/usr \
+		--mandir=/usr/share/man
+
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/doc
+}

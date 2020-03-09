@@ -1,0 +1,26 @@
+# Description: Used to share commonly used Xfce widgets among the Xfce applications
+# URL: http://www.xfce.org
+# Maintainer: CRUX Xfce Team, xfce-ports at crux dot nu
+# Packager: Jose V Beneyto, sepen at crux dot nu
+# Depends on: gtk xfconf startup-notification
+# Group: xfce4
+
+name=libxfce4ui
+version=4.12.1
+release=1
+source=(http://archive.xfce.org/src/xfce/$name/${version%.*}/$name-$version.tar.bz2)
+
+build () {
+  cd $name-$version
+
+  ./configure --prefix=/usr \
+              --disable-static \
+              --disable-debug
+
+  make
+  make DESTDIR=$PKG install
+
+  rm -r $PKG/usr/share/{locale,gtk-doc}
+  find $PKG/usr/share/applications -type f -name '*.desktop' \
+    -exec sed -r '/\[.+\]=/d' -i {} \;
+}

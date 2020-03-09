@@ -1,0 +1,16 @@
+# Description: CD Ripping frontend
+# URL: http://littlesvr.ca/asunder/
+# Maintainer: Cody Crawford
+# Depends on: gtk, flac, lame, vorbis-tools, cdparanoia, libcddb
+
+name=asunder
+version=2.9.5
+release=1
+source=(http://littlesvr.ca/asunder/releases/asunder-$version.tar.bz2)
+
+build() {
+	cd asunder-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

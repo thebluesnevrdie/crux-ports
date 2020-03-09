@@ -1,0 +1,25 @@
+# Description: Network Configurator is a Qt and GTK+ monitor and configuration GUI for dhcpcd
+# URL: https://roy.marples.name/projects/dhcpcd-ui
+# Maintainer: Cody Crawford
+# Depends on: gtk3 wpa_supplicant libnotify glib
+
+name=dhcpcd-ui
+version=0.7.5
+release=1
+source=(http://roy.marples.name/downloads/dhcpcd/dhcpcd-ui-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--libexecdir=/usr/lib \
+		--with-dhcpcd-online \
+		--with-gtk \
+		--with-icons \
+		--disable-notification
+
+	make
+	make DESTDIR=$PKG install
+
+}

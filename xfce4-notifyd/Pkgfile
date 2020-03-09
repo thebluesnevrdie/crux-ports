@@ -1,0 +1,29 @@
+# Description: Xfce Notification Daemon
+# URL: 
+# Maintainer: CRUX Xfce Team, xfce-ports at crux dot nu
+# Packager: Jose V Beneyto, sepen at crux dot nu
+# Depends on: libxfce4ui libnotify
+# Group: xfce4
+
+name=xfce4-notifyd
+version=0.2.4
+release=1
+source=(http://archive.xfce.org/src/apps/$name/${version%.*}/$name-$version.tar.bz2)
+
+build () {
+	cd $SRC/$name-$version
+
+	./configure \
+		--prefix=/usr \
+		--libexecdir=/usr/lib \
+                --mandir=/usr/man \
+		--disable-static \
+		--disable-debug
+
+	make
+	make DESTDIR=$PKG install
+
+	rm -rf $PKG/usr/share/{locale,doc}
+	find $PKG/usr/share/applications -type f -name '*.desktop' \
+		-exec sed -r '/\[.+\]=/d' -i {} \;
+}

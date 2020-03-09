@@ -1,0 +1,18 @@
+# Description: Simple and lightweight GTK calendar
+# URL:         http://dmedvinsky.github.com/gsimplecal
+# Maintainer:  Cody Crawford
+# Packager:    Cody Crawford
+# Depends on:  gtk xorg-libxdamage
+
+name=gsimplecal
+version=2.1
+release=1
+source=(https://github.com/dmedvinsky/$name/archive/v$version.tar.gz)
+build () {
+    cd $name-$version
+    ./autogen.sh
+    ./configure --prefix=/usr --mandir=/usr/man
+    make
+    make DESTDIR=$PKG \
+        install
+}

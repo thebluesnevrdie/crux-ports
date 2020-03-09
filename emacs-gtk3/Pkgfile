@@ -1,0 +1,43 @@
+# Description: GNU emacs - an extensible text editor
+# URL: http://gnu.org/software/emacs/
+# Maintainer:  Cory Burgett, cmburget at gmail dot com
+# Depends on: alsa-lib atk cairo dbus fontconfig freetype fribidi gdk-pixbuf giflib glib gnutls gtk3 lcms2 libjpeg-turbo libpng librsvg libsoup libtiff libxml2 pango webkitgtk
+# Conflicts with: ctags
+
+name=emacs-gtk3
+version=26.1
+release=1
+source=(http://ftpmirror.gnu.org/emacs/emacs-$version.tar.xz)
+
+build() {
+	cd emacs-$version
+
+	./configure --prefix=/usr \
+	            --libexecdir=/usr/lib/emacs \
+	            --disable-libsystemd \
+	            --without-selinux \
+	            --without-gconf \
+	            --without-gsettings \
+	            --without-libotf \
+	            --without-m17n-flt \
+	            --with-x \
+	            --with-x-toolkit=gtk3 \
+	            --with-xwidgets \
+	            --with-sound=alsa \
+	            --with-modules
+
+	make
+	make DESTDIR=$PKG install
+
+	find $PKG -exec chown root:root \{} \;
+	find $PKG -name '*README*' -exec rm \{} \;
+	find $PKG -name AUTHORS -exec rm \{} \;
+	find $PKG -name COPYING -exec rm \{} \;
+	find $PKG -name '*NEWS*' -exec rm \{} \;
+	find $PKG -name '*TODO*' -exec rm \{} \;
+
+	rm -rf $PKG/usr/share/doc
+
+	## all of emacs's online help is kept as info files
+	#rm -rf $PKG/usr/share/info
+}

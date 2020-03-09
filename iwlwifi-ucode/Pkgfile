@@ -1,0 +1,13 @@
+# Description:	Firmware files for many Intel Wireless cards
+# URL:		https://wireless.wiki.kernel.org/en/users/drivers/iwlwifi
+# Maintaner:	Cody Crawford
+# Depends on:
+
+name=iwlwifi-ucode
+version=2018-12-30
+release=1
+source=(https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.git/snapshot/linux-firmware-iwlwifi-fw-$version.tar.gz)
+
+build () {
+	find $SRC -type f -name \*.ucode -execdir install -m 644 -D {} $PKG/lib/firmware/{} \;
+}

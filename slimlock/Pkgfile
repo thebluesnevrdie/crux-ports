@@ -1,0 +1,16 @@
+# Description: Unholy screen locker based on SLiM.
+# URL: https://github.com/dannyn/slimlock
+# Maintainer: Cody Crawford
+# Depends on: xorg-libxft imlib2 linux-pam slim
+
+name=slimlock
+version=0.12
+release=1
+
+source=(https://github.com/dannyn/slimlock/archive/v$version.tar.gz)
+build ()
+{
+    cd $name-$version
+    make
+    make DESTDIR="$PKG/" MANDIR=/usr/share/man install
+}

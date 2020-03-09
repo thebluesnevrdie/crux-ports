@@ -1,0 +1,24 @@
+# Description: Generate C bindings from rust code
+# URL: https://github.com/eqrion/cbindgen
+# Maintainer: Danny Rawlins, crux at romster dot me
+# Depends on: rust
+# Optional: sccache
+
+name=cbindgen
+version=0.8.2
+release=1
+source=(https://github.com/eqrion/cbindgen/archive/v$version/$name-v$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	if [ -n "$(pkginfo -i | grep '^sccache ')" ]; then
+		export RUSTC_WRAPPER=/usr/bin/sccache
+	fi
+
+	export CARGO_HOME="$PKGMK_SOURCE_DIR"
+
+	cargo build --release
+	cargo install --root $PKG/usr
+	rm $PKG/usr/.crates.toml
+}

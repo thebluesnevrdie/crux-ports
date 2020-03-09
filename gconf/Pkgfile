@@ -1,0 +1,24 @@
+# Description: library to store key/value pairs persistently
+# URL: https://www.wiki.gnome.org
+# Maintainer: Daryl Fonseca, wyatt at prairieturtle dot ca
+# Packager: Daryl Fonseca, wyatt at prairieturtle dot ca
+# Depends on: dbus-glib intltool libxml2
+
+name=gconf
+version=3.2.6
+release=4
+source=(https://download.gnome.org/sources/GConf/3.2/GConf-3.2.6.tar.xz)
+
+build() {
+	cd GConf-$version
+	./configure --prefix=/usr \
+		--libexecdir=/usr/lib/$name \
+		--disable-orbit \
+		--disable-nls \
+		--enable-gsettings-backend=no
+
+	make
+	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/gtk-doc
+	rm -r $PKG/usr/share/locale
+}
